@@ -1,4 +1,4 @@
-🚀 Telegram Smart Storage Bot (AWS + Terraform)
+# 🚀 Telegram Smart Storage Bot (AWS + Terraform)
 
 An advanced Telegram bot built on AWS Lambda, API Gateway v2, DynamoDB, and S3, deployed using Terraform.
 The bot can:
@@ -14,8 +14,8 @@ The bot can:
 
 The full bot logic is implemented in ```handler.py```
 
-📌 Features
-📝 Text & Commands
+## 📌 Features
+### 📝 Text & Commands
 - ```/start, /help, /menu```
 - ```/echo <text>```
 - ```/save <key> <value>``` & ```/get <key>```
@@ -27,14 +27,10 @@ The full bot logic is implemented in ```handler.py```
 - ```/summarize``` – summarise previous notes
 
 
-📁 File Storage (S3)
-
+### 📁 File Storage (S3)
 - Photos
 - Documents (PDF, Word, etc.)
 - Voice messages
-
-
-Voice messages
 
 Each file is:
 
@@ -45,7 +41,7 @@ Each file is:
 
 (See ```handle_photo, handle_document, handle_voice``` in code.)
 
-🔐 AWS Services Used
+### 🔐 AWS Services Used
 - AWS Lambda (Python handler)
 - Amazon API Gateway HTTP API v2 (webhook endpoint)
 - Amazon DynamoDB (user messages, files, metadata)
@@ -53,7 +49,7 @@ Each file is:
 - CloudWatch Logs (logging)
 - IAM (Lambda permissions)
 
-🧱 Architecture Overview
+### 🧱 Architecture Overview
 ```
 Telegram  →  API Gateway (HTTP API v2)
                   ↓
@@ -65,7 +61,8 @@ Telegram  →  API Gateway (HTTP API v2)
    (messages +      (file          (optional AI
      metadata)      storage)         replies)
 ```
-📂 Folder Structure
+
+### 📂 Folder Structure
 ``` bash
 .
 ├── handler.py               # Lambda function code
@@ -74,20 +71,21 @@ Telegram  →  API Gateway (HTTP API v2)
 ├── outputs.tf               # Outputs (Webhook URL, ARNs, etc.)
 └── terraform.tfvars         # Bot token + secrets (not committed)
 ```
-⚙️ Requirements
+
+### ⚙️ Requirements
 
 - AWS account
 - Terraform ≥ 1.7
 - Python 3.11 runtime (AWS Lambda)
 - Telegram bot token (from @BotFather)
 
-🔧 Terraform Setup & Deployment
-1️⃣ Clone the repo
+## 🔧 Terraform Setup & Deployment
+### 1️⃣ Clone the repo
 ```bash
 git clone <repo-url>
 cd your-repo
 ```
-2️⃣ Create ```terraform.tfvars```
+### 2️⃣ Create ```terraform.tfvars```
 ```bash
 telegram_bot_token = "YOUR_TELEGRAM_BOT_TOKEN"
 openai_api_key     = "YOUR_OPENAI_API_KEY"     # optional
@@ -95,19 +93,19 @@ gemini_api_key     = "YOUR_GEMINI_API_KEY"     # optional
 s3_bucket_name     = "telegram-bot-files-UNIQUE-NAME"
 environment        = "dev"
 ```
-3️⃣ Initialize Terraform
+### 3️⃣ Initialize Terraform
 ```bash
 terraform init
 ```
-4️⃣ Review planned resources
+### 4️⃣ Review planned resources
 ```bash
 terraform plan
 ```
-5️⃣ Deploy the entire stack
+### 5️⃣ Deploy the entire stack
 ```bash
 terraform apply
 ```
-🔗 Configure Telegram Webhook
+### 🔗 Configure Telegram Webhook
 
 After Terraform finishes:
 ```
@@ -127,7 +125,7 @@ Verify:
 ```
 Invoke-WebRequest -Uri "https://api.telegram.org/bot$BotToken/getWebhookInfo" -Method Get
 ```
-🎤 Supported User Actions
+### 🎤 Supported User Actions
 Users can simply:
 - Send text
 - Send photos
@@ -140,7 +138,7 @@ The bot automatically:
 - Creates metadata in DynamoDB
 - Sends confirmation
 
-🗂 DynamoDB Schema
+### 🗂 DynamoDB Schema
 
 Partition key: ```user_id```
 Sort key prefixes:
@@ -150,7 +148,7 @@ Sort key prefixes:
 ```kv#key``` → key-value store
 
 ```file#file_id``` → file metadata
-📁 S3 Storage Layout
+### 📁 S3 Storage Layout
 ```
 s3://<bucket-name>/
    └── <user_id>/
@@ -158,7 +156,7 @@ s3://<bucket-name>/
          ├── documents/
          └── voice/
 ```
-🧪 Testing
+### 🧪 Testing
 1. Send text → bot should store & reply
 2. Send photo → bot saves to S3, logs to DynamoDB
 3. Send a document → stored properly
@@ -174,10 +172,10 @@ s3://<bucket-name>/
    
 ``` aws logs tail "/aws/lambda/telegram-bot-lambda-v2" --follow --since 15m ```
 
-🛑 Cleanup
+### 🛑 Cleanup
 
 ``` terraform destroy ```
 
-📜 License
+### 📜 License
 
 MIT License — you're free to use, modify, or extend the bot.
